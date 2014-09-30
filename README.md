@@ -2,6 +2,10 @@
 
 Insert and delete C++ header files automatically.
 
+## Screencast
+
+![cpp-auto-include](image/cpp-auto-include.gif)
+
 ## Introduction
 
 This package is Emacs port of Vim's [cpp-auto-include](https://github.com/quark-zju/vim-cpp-auto-include).
