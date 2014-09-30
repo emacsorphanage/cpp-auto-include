@@ -181,7 +181,9 @@
     (let ((insert-point (or (cpp-auto-include--header-insert-point) (point-min))))
       (goto-char insert-point)
       (dolist (header headers)
-        (insert (format "#include <%s>\n" header))))))
+        (insert (format "#include <%s>\n" header)))
+      (unless (re-search-forward "^\\s-*$" (line-end-position) t)
+        (insert "\n")))))
 
 (defun cpp-auto-include--remove-headers (headers)
   (save-excursion
