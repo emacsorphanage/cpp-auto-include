@@ -202,7 +202,13 @@
 ;;;###autoload
 (defun cpp-auto-include ()
   (interactive)
-  (let ((info (cpp-auto-include--parse-file)))))
+  (let* ((info (cpp-auto-include--parse-file))
+         (added (plist-get info :added))
+         (removed (plist-get info :removed)))
+    (when removed
+      (cpp-auto-include--remove-headers removed))
+    (when added
+      (cpp-auto-include--add-headers added))))
 
 (provide 'cpp-auto-include)
 
