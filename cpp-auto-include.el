@@ -129,12 +129,19 @@
     (and (re-search-forward (concat "<" header ">") nil t)
          (line-number-at-pos))))
 
+(defsubst cpp-auto-include--in-string-or-comment-p ()
+  (nth 8 (syntax-ppss)))
+
 (defun cpp-auto-include--has-keyword-p (regexp line)
   (save-excursion
     (goto-char (point-min))
     (when line
       (forward-line line))
-    (re-search-forward regexp nil t)))
+    (let (finish)
+      (while (and (not finish) (re-search-forward regexp nil t))
+        (unless (cpp-auto-include--in-string-or-comment-p)
+          (setq finish t)))
+      finish)))
 
 (defun cpp-auto-include--parse-file ()
   (cl-loop with use-std = nil
