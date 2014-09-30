@@ -1,4 +1,4 @@
-# cpp-auto-include.el
+# cpp-auto-include.el[![Build Status](https://travis-ci.org/syohex/emacs-cpp-auto-include.png)](https://travis-ci.org/syohex/emacs-cpp-auto-include)
 
 Insert and delete C++ header files automatically.
 
