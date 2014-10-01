@@ -30,22 +30,8 @@
   `(with-temp-buffer
      (insert ,code)
      (goto-char (point-min))
-     (c++-mode)
-     (font-lock-fontify-buffer)
+     ;; (c++-mode) <- This causes error Emacs 24.3 or lower version
      ,@body))
-
-(defun forward-cursor-on (pattern &optional count)
-  (let ((case-fold-search nil))
-    (re-search-forward pattern nil nil (or count 1)))
-  (goto-char (match-beginning 0)))
-
-(defun backward-cursor-on (pattern &optional count)
-  (let ((case-fold-search nil))
-    (re-search-backward pattern nil nil (or count 1)))
-  (goto-char (match-beginning 0)))
-
-(defun face-at-cursor-p (face)
-  (eq (face-at-point) face))
 
 (provide 'test-helper)
 
