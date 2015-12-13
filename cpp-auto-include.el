@@ -1,10 +1,11 @@
 ;;; cpp-auto-include.el --- auto include header file for C++
 
-;; Copyright (C) 2014 by Syohei YOSHIDA
+;; Copyright (C) 2015 by Syohei YOSHIDA
 
 ;; Author: Syohei YOSHIDA <syohex@gmail.com>
-;; URL: https://github.com/syohex/
+;; URL: https://github.com/syohex/emacs-cpp-auto-include
 ;; Version: 0.01
+;; Package-Requires: ((cl-lib "0.5"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
