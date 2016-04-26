@@ -110,7 +110,7 @@
                          (or "set" "multiset")
                          (* space) "<" word-boundary)))
     ("vector" t t "\\bvector\\s-*<")
-    ("iomapip" t t ,(rx (and symbol-start
+    ("iomanip" t t ,(rx (and symbol-start
                              (or (and (or "setprecision" "setbase" "setw")
                                       (* space) "(")
                                  (and (or "fixed" "hex")
