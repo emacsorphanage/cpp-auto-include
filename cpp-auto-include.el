@@ -86,6 +86,10 @@
                    "next_permutation" "prev_permutation"
                    "min" "max" "count" "random_shuffle" "swap")
                (* space) "(")))
+    ("type_traits" t t
+     ,(rx (and symbol-start
+               (or "decay_t" "decay")
+               (* space) "<")))
     ("numeric" t t
      ,(rx (and symbol-start
                (or "partial_sum" "accumulate" "adjacent_difference" "inner_product")
