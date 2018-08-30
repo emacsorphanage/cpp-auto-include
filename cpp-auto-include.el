@@ -82,7 +82,7 @@
      ,(rx (and symbol-start
                (or "sort" "stable_sort" "partial_sort" "partial_sort_copy"
                    "unique" "unique_copy" "reverse" "reverse_copy"
-                   "nth_element" "lower_bound" "upper_bound" "binary_search"
+                   "nth_element" "lower_bound" "upper_bound" "fill" "binary_search"
                    "next_permutation" "prev_permutation"
                    "min" "max" "count" "random_shuffle" "swap")
                (* space) "(")))
