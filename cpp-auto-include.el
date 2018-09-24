@@ -80,7 +80,7 @@
     ("limits" t t "\\bnumeric_limits\\s-*<\\b")
     ("algorithm" t t
      ,(rx (and symbol-start
-               (or "sort" "stable_sort" "partial_sort" "partial_sort_copy"
+               (or "sort" "stable_sort" "partial_sort" "partial_sort_copy" "find"
                    "unique" "unique_copy" "reverse" "reverse_copy"
                    "nth_element" "lower_bound" "upper_bound" "fill" "binary_search"
                    "next_permutation" "prev_permutation"
