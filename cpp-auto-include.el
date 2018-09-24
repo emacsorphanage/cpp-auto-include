@@ -97,6 +97,9 @@
     ("iostream" t t ,(rx (and symbol-start
                               (or "cin" "cout" "cerr")
                               symbol-end)))
+    ("array" t t ,(rx (and symbol-start
+                           (or "array" "tuple_size" "tuple_element")
+                           symbol-end)))
     ("sstream" t t ,(rx (and symbol-start
                              (or "stringstream" "istringstream" "ostringstream")
                              symbol-end)))
@@ -177,9 +180,9 @@
     (goto-char (point-min))
     (let ((re "^\\s-*#\\s-*include\\s-*<\\([^>]+\\)>")
           headers)
-     (while (re-search-forward re nil t)
-       (cl-pushnew (match-string-no-properties 1) headers :test 'equal))
-     headers)))
+      (while (re-search-forward re nil t)
+        (cl-pushnew (match-string-no-properties 1) headers :test 'equal))
+      headers)))
 
 (defun cpp-auto-include--header-insert-point ()
   (save-excursion
