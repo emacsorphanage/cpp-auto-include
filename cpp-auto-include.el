@@ -92,7 +92,7 @@
                (* space) "<")))
     ("numeric" t t
      ,(rx (and symbol-start
-               (or "partial_sum" "accumulate" "adjacent_difference" "inner_product")
+               (or "partial_sum" "accumulate" "adjacent_difference" "inner_product" "gcd" "lcm" "iota" "reduce" "transform_reduce" "inclusive_scan" "exclusive_scan" "transform_inclusive_scan" "transform_exclusive_scan")
                (* space) "(")))
     ("iostream" t t ,(rx (and symbol-start
                               (or "cin" "cout" "cerr")
@@ -128,7 +128,10 @@
                                       (* space) "(")
                                  (and (or "fixed" "hex")
                                       symbol-end)))))
-    ("string" t t "\\bstring\\b")
+    ("string" t t ,(rx (and symbol-start
+                         (or "string" "getline")
+                             symbol-end)))
+    ;; ("string" t t "\\bstring\\b")
     ("utility" t t "\\b\\(?:pair\\s-*<\\|make_pair\\)")))
 
 (defun cpp-auto-include--include-line (header)
