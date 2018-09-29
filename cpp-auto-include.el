@@ -129,8 +129,8 @@
                                  (and (or "fixed" "hex")
                                       symbol-end)))))
     ("string" t t ,(rx (and symbol-start
-                         (or "string" "getline")
-                             symbol-end)))
+                            (or "string" "getline")
+                            symbol-end)))
     ;; ("string" t t "\\bstring\\b")
     ("utility" t t "\\b\\(?:pair\\s-*<\\|make_pair\\)")))
 
@@ -187,16 +187,36 @@
         (cl-pushnew (match-string-no-properties 1) headers :test 'equal))
       headers)))
 
-(defun cpp-auto-include--header-insert-point ()
+(defun cpp-auto-include--header-include-insert-point ()
   (save-excursion
     (goto-char (point-max))
     (when (re-search-backward "^#\\s-*include\\s-*[<\"]" nil t)
       (forward-line 1)
       (point))))
 
+(defun cpp-auto-include--header-include-guard-ifndef-insert-point ()
+  (save-excursion
+    (goto-char (point-max))
+    (when (re-search-backward "^#\\s-*ifndef\\s-*\\([A-Z]+\\)\\Ca#\\s-*define\\s-*\\1" nil t)
+      (forward-line 2)
+      (point))))
+
+(defun cpp-auto-include--header-include-guard-pragma-once-insert-point ()
+  (save-excursion
+     (goto-char (point-max))
+     (when (re-search-backward "^#pragma\\s-*once" nil t)
+       (forward-line 1)
+       (point))))
+
+
 (defun cpp-auto-include--add-headers (headers)
   (save-excursion
-    (let ((insert-point (or (cpp-auto-include--header-insert-point) (point-min))))
+    (let ((insert-point (or
+                         (cpp-auto-include--header-include-guard-ifndef-insert-point)
+                         (cpp-auto-include--header-include-guard-pragma-once-insert-point)
+                         (cpp-auto-include--header-include-insert-point)
+                         (point-min)
+                         )))
       (goto-char insert-point)
       (dolist (header headers)
         (insert (format "#include <%s>\n" header)))
