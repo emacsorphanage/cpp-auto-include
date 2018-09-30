@@ -73,6 +73,19 @@
      ,(rx (and symbol-start
                (or "bcmp" "bcopy" "bzero" "strcasecmp" "strncasecmp")
                (* space) "(")))
+    ("cstdint" nil t
+     ,(rx (and symbol-start
+               (or "PTRDIFF_MIN" "PTRDIFF_MAX" "SIZE_MAX" "SIG_ATOMIC_MIN" "SIG_ATOMIC_MAX" "WCHAR_MIN" "WCHAR_MAX" "WINT_MIN" "WINT_MAX"))))
+    ("climits" nil t
+     ,(rx (and symbol-start
+               (or "CHAR_BIT" "MB_LEN_MAX" "CHAR_MIN" "CHAR_MAX" "SCHAR_MIN" "SHRT_MIN" "INT_MIN" "LONG_MIN" "LLONG_MIN" "SCHAR_MAX" "SHRT_MAX" "INT_MAX" "LONG_MAX"
+                   "LLONG_MAX" "UCHAR_MAX" "USHRT_MAX" "UINT_MAX" "ULONG_MAX" "ULLONG_MAX"))))
+    ("cfloat" nil t
+     ,(rx (and symbol-start
+               (or "FLT_RADIX" "DECIMAL_DIG" "FLT_DECIMAL_DIG" "DBL_DECIMAL_DIG" "LDBL_DECIMAL_DIG" "FLT_MIN" "DBL_MIN" "LDBL_MIN" "FLT_TRUE_MIN" "DBL_TRUE_MIN" "LDBL_TRUE_MIN"
+                   "FLT_MAX" "DBL_MAX" "LDBL_MAX" "FLT_EPSILON" "DBL_EPSILON" "LDBL_EPSILON" "FLT_DIG" "DBL_DIG" "LDBL_DIG" "FLT_MANT_DIG" "DBL_MANT_DIG" "LDBL_MANT_DIG" "FLT_MIN_EXP"
+                   "DBL_MIN_EXP" "LDBL_MIN_EXP" "FLT_MIN_10_EXP" "DBL_MIN_10_EXP" "LDBL_MIN_10_EXP" "FLT_MAX_EXP" "DBL_MAX_EXP" "LDBL_MAX_EXP" "FLT_MAX_10_EXP" "DBL_MAX_10_EXP"
+                   "LDBL_MAX_10_EXP" "FLT_ROUNDS" " FLT_EVAL_METHOD" "FLT_HAS_SUBNORM" "DBL_HAS_SUBNORM" "LDBL_HAS_SUBNORM"))))
     ("typeinfo" nil t "\\btypeid\\b")
     ("new" t t ,(rx (and symbol-start
                          (or "set_new_handler" "nothrow")
