@@ -52,6 +52,12 @@
                         (* space) "(")
                    (and (or (and "EXIT_" (1+ (in "A-Z")))
                             "NULL"))))))
+
+("string" t t ,(rx (and symbol-start
+                        (or (and (or "stoi" "stol" "stoll" "getline" "stoul" "stoull" "stof" "stod" "stold" "to_string" "to_wstring") (* space) "(")
+                            (and (or "char_traits" "basic_string" "string" "wstring" "u16string" "u32string" ) (* space) "<"))
+                            symbol-end)))
+
     ("cmath" nil t
      ,(rx (and symbol-start
                (or (and (or "powf" "powl"
@@ -145,10 +151,6 @@
                                       (* space) "(")
                                  (and (or "fixed" "hex")
                                       symbol-end)))))
-    ("string" t t ,(rx (and symbol-start
-                            (or "string" "getline")
-                            symbol-end)))
-    ;; ("string" t t "\\bstring\\b")
     ("utility" t t "\\b\\(?:pair\\s-*<\\|make_pair\\)")))
 
 (defun cpp-auto-include--include-line (header)
