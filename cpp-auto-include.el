@@ -73,6 +73,10 @@
      ,(rx (and symbol-start
                (or "bcmp" "bcopy" "bzero" "strcasecmp" "strncasecmp")
                (* space) "(")))
+    ("cstddef" nil t
+     ,(rx (and symbol-start
+               (or "NULL" "offsetof" "size_t" "ptrdiff_t" "nullptr_t" "max_align_t" "byte")
+               (* space) "(")))
     ("cstdint" nil t
      ,(rx (and symbol-start
                (or "PTRDIFF_MIN" "PTRDIFF_MAX" "SIZE_MAX" "SIG_ATOMIC_MIN" "SIG_ATOMIC_MAX" "WCHAR_MIN" "WCHAR_MAX" "WINT_MIN" "WINT_MAX"))))
@@ -216,10 +220,10 @@
 
 (defun cpp-auto-include--header-include-guard-pragma-once-insert-point ()
   (save-excursion
-     (goto-char (point-max))
-     (when (re-search-backward "^#pragma\\s-*once" nil t)
-       (forward-line 1)
-       (point))))
+    (goto-char (point-max))
+    (when (re-search-backward "^#pragma\\s-*once" nil t)
+      (forward-line 1)
+      (point))))
 
 
 (defun cpp-auto-include--add-headers (headers)
