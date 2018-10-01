@@ -55,7 +55,7 @@
 
 ("string" t t ,(rx (and symbol-start
                         (or (and (or "stoi" "stol" "stoll" "getline" "stoul" "stoull" "stof" "stod" "stold" "to_string" "to_wstring") (* space) "(")
-                            (and (or "char_traits" "basic_string" "string" "wstring" "u16string" "u32string" ) (* space) "<" word-boundar)
+                            (and (or "char_traits" "basic_string" "string" "wstring" "u16string" "u32string" ) (* space) "<" word-boundary)
                             (or "string"))
                             )))
 
