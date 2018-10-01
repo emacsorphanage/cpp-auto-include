@@ -76,7 +76,7 @@
     ("cstddef" nil t
      ,(rx (and symbol-start
                (or "NULL" "offsetof" "size_t" "ptrdiff_t" "nullptr_t" "max_align_t" "byte")
-               (* space) "(")))
+               )))
     ("cstdint" nil t
      ,(rx (and symbol-start
                (or "PTRDIFF_MIN" "PTRDIFF_MAX" "SIZE_MAX" "SIG_ATOMIC_MIN" "SIG_ATOMIC_MAX" "WCHAR_MIN" "WCHAR_MAX" "WINT_MIN" "WINT_MAX"))))
