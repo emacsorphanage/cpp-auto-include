@@ -101,6 +101,11 @@
     ("new" t t ,(rx (and symbol-start
                          (or "set_new_handler" "nothrow")
                          (* space) "(")))
+    ("stdexcept" t t ,(rx (and symbol-start
+                               (or "logic_error" "invalid_argument" "domain_error" "length_error" "out_of_range" "runtime_error" "range_error"
+                                   "overflow_error" "underflow_error")
+                         (* space) "(")))
+
     ("limits" t t "\\bnumeric_limits\\s-*<\\b")
     ("algorithm" t t
      ,(rx (and symbol-start
