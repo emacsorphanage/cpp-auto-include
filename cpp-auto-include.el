@@ -1,4 +1,4 @@
-;;; cpp-auto-include.el --- auto include header file for C++
+;;; cpp-auto-include.el --- Auto include and remove header files for C/C++.
 
 ;; Copyright (C) 2015 by Syohei YOSHIDA
 
@@ -21,6 +21,16 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+
+;; Automatically include header files that are used and remove header files that
+;; are not used.
+
+;; Usage:
+
+;; M-x cpp-auto-include
+
+;;   Include header files which you need and remove header files which you don't
+;;   need.
 
 ;;; Code:
 
