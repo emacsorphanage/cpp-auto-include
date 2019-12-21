@@ -1,4 +1,4 @@
-;;; cpp-auto-include.el --- auto include header file for C++
+;;; cpp-auto-include.el --- Insert and delete C++ header files automatically
 
 ;; Copyright (C) 2015 by Syohei YOSHIDA
 
@@ -21,6 +21,10 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+
+;; This package provided the command `cpp-auto-include', which
+;; automatically adds the needed C++ header files and/or removes
+;; those that are no longer needed.
 
 ;;; Code:
 
@@ -209,6 +213,7 @@
 
 ;;;###autoload
 (defun cpp-auto-include ()
+  "Insert needed C++ headers and remove unneeded headers."
   (interactive)
   (let* ((info (cpp-auto-include--parse-file))
          (added (plist-get info :added))
