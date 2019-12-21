@@ -33,6 +33,4 @@
      ;; (c++-mode) <- This causes error Emacs 24.3 or lower version
      ,@body))
 
-(provide 'test-helper)
-
 ;;; test-helper.el ends here
