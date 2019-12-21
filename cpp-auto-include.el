@@ -3,7 +3,7 @@
 ;; Copyright (C) 2015 by Syohei YOSHIDA
 
 ;; Author: Syohei YOSHIDA <syohex@gmail.com>
-;; URL: https://github.com/syohex/emacs-cpp-auto-include
+;; URL: https://github.com/emacsorphanage/cpp-auto-include
 ;; Version: 0.01
 ;; Package-Requires: ((cl-lib "0.5"))
 
