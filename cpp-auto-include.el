@@ -56,6 +56,13 @@
                         (* space) "(")
                    (and (or (and "EXIT_" (1+ (in "A-Z")))
                             "NULL"))))))
+
+("string" t t ,(rx (and symbol-start
+                        (or (and (or "stoi" "stol" "stoll" "getline" "stoul" "stoull" "stof" "stod" "stold" "to_string" "to_wstring") (* space) "(")
+                            (and (or "char_traits" "basic_string" "string" "wstring" "u16string" "u32string" ) (* space) "<" word-boundary)
+                            (or "string"))
+                            )))
+
     ("cmath" nil t
      ,(rx (and symbol-start
                (or (and (or "powf" "powl"
@@ -77,26 +84,55 @@
      ,(rx (and symbol-start
                (or "bcmp" "bcopy" "bzero" "strcasecmp" "strncasecmp")
                (* space) "(")))
+    ("cstddef" nil t
+     ,(rx (and symbol-start
+               (or "NULL" "offsetof" "size_t" "ptrdiff_t" "nullptr_t" "max_align_t" "byte")
+               )))
+    ("cstdint" nil t
+     ,(rx (and symbol-start
+               (or "PTRDIFF_MIN" "PTRDIFF_MAX" "SIZE_MAX" "SIG_ATOMIC_MIN" "SIG_ATOMIC_MAX" "WCHAR_MIN" "WCHAR_MAX" "WINT_MIN" "WINT_MAX"))))
+    ("climits" nil t
+     ,(rx (and symbol-start
+               (or "CHAR_BIT" "MB_LEN_MAX" "CHAR_MIN" "CHAR_MAX" "SCHAR_MIN" "SHRT_MIN" "INT_MIN" "LONG_MIN" "LLONG_MIN" "SCHAR_MAX" "SHRT_MAX" "INT_MAX" "LONG_MAX"
+                   "LLONG_MAX" "UCHAR_MAX" "USHRT_MAX" "UINT_MAX" "ULONG_MAX" "ULLONG_MAX"))))
+    ("cfloat" nil t
+     ,(rx (and symbol-start
+               (or "FLT_RADIX" "DECIMAL_DIG" "FLT_DECIMAL_DIG" "DBL_DECIMAL_DIG" "LDBL_DECIMAL_DIG" "FLT_MIN" "DBL_MIN" "LDBL_MIN" "FLT_TRUE_MIN" "DBL_TRUE_MIN" "LDBL_TRUE_MIN"
+                   "FLT_MAX" "DBL_MAX" "LDBL_MAX" "FLT_EPSILON" "DBL_EPSILON" "LDBL_EPSILON" "FLT_DIG" "DBL_DIG" "LDBL_DIG" "FLT_MANT_DIG" "DBL_MANT_DIG" "LDBL_MANT_DIG" "FLT_MIN_EXP"
+                   "DBL_MIN_EXP" "LDBL_MIN_EXP" "FLT_MIN_10_EXP" "DBL_MIN_10_EXP" "LDBL_MIN_10_EXP" "FLT_MAX_EXP" "DBL_MAX_EXP" "LDBL_MAX_EXP" "FLT_MAX_10_EXP" "DBL_MAX_10_EXP"
+                   "LDBL_MAX_10_EXP" "FLT_ROUNDS" " FLT_EVAL_METHOD" "FLT_HAS_SUBNORM" "DBL_HAS_SUBNORM" "LDBL_HAS_SUBNORM"))))
     ("typeinfo" nil t "\\btypeid\\b")
     ("new" t t ,(rx (and symbol-start
                          (or "set_new_handler" "nothrow")
                          (* space) "(")))
+    ("stdexcept" t t ,(rx (and symbol-start
+                               (or "logic_error" "invalid_argument" "domain_error" "length_error" "out_of_range" "runtime_error" "range_error"
+                                   "overflow_error" "underflow_error")
+                         (* space) "(")))
+
     ("limits" t t "\\bnumeric_limits\\s-*<\\b")
     ("algorithm" t t
      ,(rx (and symbol-start
-               (or "sort" "stable_sort" "partial_sort" "partial_sort_copy"
+               (or "sort" "stable_sort" "partial_sort" "partial_sort_copy" "find" "find_if"  "find_if_not"
                    "unique" "unique_copy" "reverse" "reverse_copy"
-                   "nth_element" "lower_bound" "upper_bound" "binary_search"
+                   "nth_element" "lower_bound" "upper_bound" "fill" "binary_search"
                    "next_permutation" "prev_permutation"
                    "min" "max" "count" "random_shuffle" "swap" "transform")
                (* space) "(")))
+    ("type_traits" t t
+     ,(rx (and symbol-start
+               (or "decay_t" "decay")
+               (* space) "<")))
     ("numeric" t t
      ,(rx (and symbol-start
-               (or "partial_sum" "accumulate" "adjacent_difference" "inner_product")
+               (or "partial_sum" "accumulate" "adjacent_difference" "inner_product" "gcd" "lcm" "iota" "reduce" "transform_reduce" "inclusive_scan" "exclusive_scan" "transform_inclusive_scan" "transform_exclusive_scan")
                (* space) "(")))
     ("iostream" t t ,(rx (and symbol-start
                               (or "cin" "cout" "cerr")
                               symbol-end)))
+    ("array" t t ,(rx (and symbol-start
+                           (or "array" "tuple_size" "tuple_element")
+                           symbol-end)))
     ("sstream" t t ,(rx (and symbol-start
                              (or "stringstream" "istringstream" "ostringstream")
                              symbol-end)))
@@ -125,7 +161,6 @@
                                       (* space) "(")
                                  (and (or "fixed" "hex")
                                       symbol-end)))))
-    ("string" t t "\\bstring\\b")
     ("utility" t t "\\b\\(?:pair\\s-*<\\|make_pair\\)")))
 
 (defun cpp-auto-include--include-line (header)
@@ -177,20 +212,40 @@
     (goto-char (point-min))
     (let ((re "^\\s-*#\\s-*include\\s-*<\\([^>]+\\)>")
           headers)
-     (while (re-search-forward re nil t)
-       (cl-pushnew (match-string-no-properties 1) headers :test 'equal))
-     headers)))
+      (while (re-search-forward re nil t)
+        (cl-pushnew (match-string-no-properties 1) headers :test 'equal))
+      headers)))
 
-(defun cpp-auto-include--header-insert-point ()
+(defun cpp-auto-include--header-include-insert-point ()
   (save-excursion
     (goto-char (point-max))
     (when (re-search-backward "^#\\s-*include\\s-*[<\"]" nil t)
       (forward-line 1)
       (point))))
 
+(defun cpp-auto-include--header-include-guard-ifndef-insert-point ()
+  (save-excursion
+    (goto-char (point-max))
+    (when (re-search-backward "^#\\s-*ifndef\\s-*\\([A-Z]+\\)\\Ca#\\s-*define\\s-*\\1" nil t)
+      (forward-line 2)
+      (point))))
+
+(defun cpp-auto-include--header-include-guard-pragma-once-insert-point ()
+  (save-excursion
+    (goto-char (point-max))
+    (when (re-search-backward "^#pragma\\s-*once" nil t)
+      (forward-line 1)
+      (point))))
+
+
 (defun cpp-auto-include--add-headers (headers)
   (save-excursion
-    (let ((insert-point (or (cpp-auto-include--header-insert-point) (point-min))))
+    (let ((insert-point (or
+                         (cpp-auto-include--header-include-guard-ifndef-insert-point)
+                         (cpp-auto-include--header-include-guard-pragma-once-insert-point)
+                         (cpp-auto-include--header-include-insert-point)
+                         (point-min)
+                         )))
       (goto-char insert-point)
       (dolist (header headers)
         (insert (format "#include <%s>\n" header)))
